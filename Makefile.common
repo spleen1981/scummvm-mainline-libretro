@@ -1,26 +1,17 @@
-# Following script automatically generates configuration engines files (build/config.mk.engines, engines/engines.mk, engines/plugins_table.h, engines/detection_table.h) from actual source in $(CORE_DIR).
-#
-# config.mk.engines.lite is a static file with a reduced set of engines for minimal builds
-
-ifeq (,$(filter clean,$(MAKECMDGOALS)))
-$(info Configuring ScummVM engines...)
-ifneq ($(shell cd $(BUILD_DIR); ./configure_engines.sh $(NO_HIGH_DEF) $(NO_WIP)),0)
-   $(error Configuring ScummVM engines failed)
-endif
-endif
+INCLUDES    += -I$(CORE_DIR)
 
 ######################################################################
 # Libretro settings
 ######################################################################
 
-INCLUDES    += -I$(LIBRETRO_DIR) -I$(CORE_DIR) -I$(DEPS_DIR) -I$(CORE_DIR)/engines -I$(LIBRETRO_COMM_DIR)/include -I$(LIBRETRO_COMM_DIR)/include/compat
+INCLUDES    += -I$(LIBRETRO_DIR) -I$(LIBRETRO_COMM_DIR)/include -I$(LIBRETRO_COMM_DIR)/include/compat
 MODULE_DIRS += $(LIBRETRO_DIR)
 
 OBJS := $(LIBRETRO_DIR)/libretro.o \
-			$(LIBRETRO_DIR)/libretro_os.o \
-			$(LIBRETRO_COMM_DIR)/file/retro_stat.o \
-			$(LIBRETRO_DIR)/libretro-fs.o \
-			$(LIBRETRO_DIR)/libretro-fs-factory.o
+	$(LIBRETRO_DIR)/libretro_os.o \
+	$(LIBRETRO_COMM_DIR)/file/retro_stat.o \
+	$(LIBRETRO_DIR)/libretro-fs.o \
+	$(LIBRETRO_DIR)/libretro-fs-factory.o
 
 ifeq ($(USE_LIBCO), 1)
 OBJS += $(LIBRETRO_COMM_DIR)/libco/libco.o
@@ -33,11 +24,11 @@ endif
 
 ifneq ($(STATIC_LINKING), 1)
 OBJS_DEPS += $(LIBRETRO_COMM_DIR)/file/retro_dirent.o \
-			$(LIBRETRO_COMM_DIR)/file/retro_stat.o \
-			$(LIBRETRO_COMM_DIR)/file/file_path.o \
-			$(LIBRETRO_COMM_DIR)/encodings/encoding_utf.o \
-			$(LIBRETRO_COMM_DIR)/compat/fopen_utf8.o \
-			$(LIBRETRO_COMM_DIR)/compat/compat_strl.o
+	$(LIBRETRO_COMM_DIR)/file/retro_stat.o \
+	$(LIBRETRO_COMM_DIR)/file/file_path.o \
+	$(LIBRETRO_COMM_DIR)/encodings/encoding_utf.o \
+	$(LIBRETRO_COMM_DIR)/compat/fopen_utf8.o \
+	$(LIBRETRO_COMM_DIR)/compat/compat_strl.o
 endif
 
 
@@ -52,6 +43,18 @@ include Makefile.3rdparty
 ######################################################################
 
 MODULES := test devtools base $(MODULES)
+INCLUDES    += -I$(CORE_DIR)/engines
+
+# Following script automatically generates configuration engines files (build/config.mk.engines, engines/engines.mk, engines/plugins_table.h, engines/detection_table.h) from actual source in $(CORE_DIR).
+#
+# config.mk.engines.lite is a static file with a reduced set of engines for minimal builds
+
+ifeq (,$(filter clean,$(MAKECMDGOALS)))
+$(info Configuring ScummVM engines...)
+ifneq ($(shell cd $(BUILD_DIR); ./configure_engines.sh $(NO_HIGH_DEF) $(NO_WIP)),0)
+   $(error Configuring ScummVM engines failed)
+endif
+endif
 
 ifeq ($(LITE), 1)
    include $(BUILD_DIR)/config.mk.engines.lite
