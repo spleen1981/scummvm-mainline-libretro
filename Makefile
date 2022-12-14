@@ -25,7 +25,6 @@ BUILD_DIR           = build
 LIBRETRO_DIR        = src
 srcdir              := $(CORE_DIR)
 VPATH               := $(CORE_DIR)
-DEPS_DIR            := $(LIBRETRO_DIR)/deps
 LIBRETRO_COMM_DIR   := $(LIBRETRO_DIR)/libretro-common
 
 # output files prefix
