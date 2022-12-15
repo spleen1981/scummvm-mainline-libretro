@@ -46,32 +46,32 @@ endif
 ifeq ($(USE_VORBIS), 1)
 DEFINES += -DUSE_VORBIS
 INCLUDES += -I$(DEPS_DIR)/ogg/include/ogg \
-			-I$(DEPS_DIR)/libvorbis/include \
-			-I$(DEPS_DIR)/libvorbis/lib
+			-I$(DEPS_DIR)/vorbis/include \
+			-I$(DEPS_DIR)/vorbis/lib
 OBJS_DEPS += $(DEPS_DIR)/ogg/src/bitwise.o \
 			$(DEPS_DIR)/ogg/src/framing.o \
-			$(DEPS_DIR)/libvorbis/lib/analysis.o \
-			$(DEPS_DIR)/libvorbis/lib/bitrate.o \
-			$(DEPS_DIR)/libvorbis/lib/block.o \
-			$(DEPS_DIR)/libvorbis/lib/codebook.o \
-			$(DEPS_DIR)/libvorbis/lib/envelope.o \
-			$(DEPS_DIR)/libvorbis/lib/floor0.o \
-			$(DEPS_DIR)/libvorbis/lib/floor1.o \
-			$(DEPS_DIR)/libvorbis/lib/info.o \
-			$(DEPS_DIR)/libvorbis/lib/lookup.o \
-			$(DEPS_DIR)/libvorbis/lib/lpc.o \
-			$(DEPS_DIR)/libvorbis/lib/lsp.o \
-			$(DEPS_DIR)/libvorbis/lib/mapping0.o \
-			$(DEPS_DIR)/libvorbis/lib/mdct.o \
-			$(DEPS_DIR)/libvorbis/lib/psy.o \
-			$(DEPS_DIR)/libvorbis/lib/registry.o \
-			$(DEPS_DIR)/libvorbis/lib/res0.o \
-			$(DEPS_DIR)/libvorbis/lib/sharedbook.o \
-			$(DEPS_DIR)/libvorbis/lib/smallft.o \
-			$(DEPS_DIR)/libvorbis/lib/synthesis.o \
-			$(DEPS_DIR)/libvorbis/lib/vorbisenc.o \
-			$(DEPS_DIR)/libvorbis/lib/vorbisfile.o \
-			$(DEPS_DIR)/libvorbis/lib/window.o
+			$(DEPS_DIR)/vorbis/lib/analysis.o \
+			$(DEPS_DIR)/vorbis/lib/bitrate.o \
+			$(DEPS_DIR)/vorbis/lib/block.o \
+			$(DEPS_DIR)/vorbis/lib/codebook.o \
+			$(DEPS_DIR)/vorbis/lib/envelope.o \
+			$(DEPS_DIR)/vorbis/lib/floor0.o \
+			$(DEPS_DIR)/vorbis/lib/floor1.o \
+			$(DEPS_DIR)/vorbis/lib/info.o \
+			$(DEPS_DIR)/vorbis/lib/lookup.o \
+			$(DEPS_DIR)/vorbis/lib/lpc.o \
+			$(DEPS_DIR)/vorbis/lib/lsp.o \
+			$(DEPS_DIR)/vorbis/lib/mapping0.o \
+			$(DEPS_DIR)/vorbis/lib/mdct.o \
+			$(DEPS_DIR)/vorbis/lib/psy.o \
+			$(DEPS_DIR)/vorbis/lib/registry.o \
+			$(DEPS_DIR)/vorbis/lib/res0.o \
+			$(DEPS_DIR)/vorbis/lib/sharedbook.o \
+			$(DEPS_DIR)/vorbis/lib/smallft.o \
+			$(DEPS_DIR)/vorbis/lib/synthesis.o \
+			$(DEPS_DIR)/vorbis/lib/vorbisenc.o \
+			$(DEPS_DIR)/vorbis/lib/vorbisfile.o \
+			$(DEPS_DIR)/vorbis/lib/window.o
 endif
 
 ifeq ($(USE_TREMOR), 1)
