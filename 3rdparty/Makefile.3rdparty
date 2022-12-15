@@ -3,24 +3,24 @@ INCLUDES   += -I$(DEPS_DIR)
 
 ifeq ($(USE_FLUIDSYNTH), 1)
 DEFINES += -DUSE_FLUIDSYNTH -DUSE_FLUIDLITE
-INCLUDES += -I$(DEPS_DIR)/fluidsynth/include \
-			-I$(DEPS_DIR)/fluidsynth/src
-OBJS_DEPS += $(DEPS_DIR)/fluidsynth/src/fluid_chan.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_chorus.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_conv.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_defsfont.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_dsp_float.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_gen.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_hash.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_list.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_mod.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_ramsfont.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_rev.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_settings.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_synth.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_sys.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_tuning.o \
-			$(DEPS_DIR)/fluidsynth/src/fluid_voice.o
+INCLUDES += -I$(DEPS_DIR)/fluidlite/include \
+			-I$(DEPS_DIR)/fluidlite/src
+OBJS_DEPS += $(DEPS_DIR)/fluidlite/src/fluid_chan.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_chorus.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_conv.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_defsfont.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_dsp_float.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_gen.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_hash.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_list.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_mod.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_ramsfont.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_rev.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_settings.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_synth.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_sys.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_tuning.o \
+			$(DEPS_DIR)/fluidlite/src/fluid_voice.o
 endif
 
 ifeq ($(USE_FLAC), 1)
