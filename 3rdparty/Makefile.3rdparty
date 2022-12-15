@@ -25,20 +25,20 @@ endif
 
 ifeq ($(USE_FLAC), 1)
 DEFINES += -DUSE_FLAC
-INCLUDES += -I$(DEPS_DIR)/libFLAC/include
-OBJS_DEPS += $(DEPS_DIR)/libFLAC/bitreader.o \
-			$(DEPS_DIR)/libFLAC/cpu.o \
-			$(DEPS_DIR)/libFLAC/crc.o \
-			$(DEPS_DIR)/libFLAC/fixed.o \
-			$(DEPS_DIR)/libFLAC/format.o \
-			$(DEPS_DIR)/libFLAC/lpc.o \
-			$(DEPS_DIR)/libFLAC/md5.o \
-			$(DEPS_DIR)/libFLAC/memory.o \
-			$(DEPS_DIR)/libFLAC/metadata_object.o \
-			$(DEPS_DIR)/libFLAC/stream_decoder.o
+INCLUDES += -I$(DEPS_DIR)/flac/src/libFLAC/include -I$(DEPS_DIR)/flac/include/share -I$(DEPS_DIR)/flac/include/FLAC
+OBJS_DEPS += $(DEPS_DIR)/flac/src/libFLAC/bitreader.o \
+			$(DEPS_DIR)/flac/src/libFLAC/cpu.o \
+			$(DEPS_DIR)/flac/src/libFLAC/crc.o \
+			$(DEPS_DIR)/flac/src/libFLAC/fixed.o \
+			$(DEPS_DIR)/flac/src/libFLAC/format.o \
+			$(DEPS_DIR)/flac/src/libFLAC/lpc.o \
+			$(DEPS_DIR)/flac/src/libFLAC/md5.o \
+			$(DEPS_DIR)/flac/src/libFLAC/memory.o \
+			$(DEPS_DIR)/flac/src/libFLAC/metadata_object.o \
+			$(DEPS_DIR)/flac/src/libFLAC/stream_decoder.o
 
 ifeq ($(platform), win)
-OBJS_DEPS += $(DEPS_DIR)/libFLAC/share/win_utf8_io/win_utf8_io.o \
+OBJS_DEPS += $(DEPS_DIR)/flac/src/share/win_utf8_io/win_utf8_io.o \
 			 $(CORE_DIR)/backends/platform/sdl/win32/win32_wrapper.o
 endif
 endif

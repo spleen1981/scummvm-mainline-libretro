@@ -10,3 +10,6 @@
 [submodule "3rdparty/libfaad"]
 	path = 3rdparty/libfaad
 	url = https://github.com/gypified/libfaad
+[submodule "3rdparty/flac"]
+	path = 3rdparty/flac
+	url = https://github.com/xiph/flac
