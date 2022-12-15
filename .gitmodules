@@ -7,3 +7,6 @@
 [submodule "3rdparty/fluidlite"]
 	path = 3rdparty/fluidlite
 	url = https://github.com/divideconcept/FluidLite
+[submodule "3rdparty/libfaad"]
+	path = 3rdparty/libfaad
+	url = https://github.com/gypified/libfaad
