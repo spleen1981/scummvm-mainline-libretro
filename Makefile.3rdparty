@@ -45,7 +45,7 @@ endif
 
 ifeq ($(USE_VORBIS), 1)
 DEFINES += -DUSE_VORBIS
-INCLUDES += -I$(DEPS_DIR)/ogg/include/ogg \
+INCLUDES += -I$(DEPS_DIR)/ogg/include \
 			-I$(DEPS_DIR)/vorbis/include \
 			-I$(DEPS_DIR)/vorbis/lib
 OBJS_DEPS += $(DEPS_DIR)/ogg/src/bitwise.o \
