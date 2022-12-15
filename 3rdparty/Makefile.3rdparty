@@ -128,41 +128,41 @@ endif
 
 ifeq ($(USE_FAAD), 1)
 DEFINES += -DUSE_FAAD
-INCLUDES += -I$(DEPS_DIR)/libfaad/include -I$(DEPS_DIR)/libfaad/libfaad
-OBJS_DEPS += $(DEPS_DIR)/libfaad/libfaad/bits.o \
-			$(DEPS_DIR)/libfaad/libfaad/cfft.o \
-			$(DEPS_DIR)/libfaad/libfaad/common.o \
-			$(DEPS_DIR)/libfaad/libfaad/decoder.o \
-			$(DEPS_DIR)/libfaad/libfaad/drc.o \
-			$(DEPS_DIR)/libfaad/libfaad/error.o \
-			$(DEPS_DIR)/libfaad/libfaad/filtbank.o \
-			$(DEPS_DIR)/libfaad/libfaad/hcr.o \
-			$(DEPS_DIR)/libfaad/libfaad/huffman.o \
-			$(DEPS_DIR)/libfaad/libfaad/ic_predict.o \
-			$(DEPS_DIR)/libfaad/libfaad/is.o \
-			$(DEPS_DIR)/libfaad/libfaad/lt_predict.o \
-			$(DEPS_DIR)/libfaad/libfaad/mdct.o \
-			$(DEPS_DIR)/libfaad/libfaad/mp4.o \
-			$(DEPS_DIR)/libfaad/libfaad/ms.o \
-			$(DEPS_DIR)/libfaad/libfaad/output.o \
-			$(DEPS_DIR)/libfaad/libfaad/pns.o \
-			$(DEPS_DIR)/libfaad/libfaad/pulse.o \
-			$(DEPS_DIR)/libfaad/libfaad/ps_dec.o \
-			$(DEPS_DIR)/libfaad/libfaad/ps_syntax.o \
-			$(DEPS_DIR)/libfaad/libfaad/rvlc.o \
-			$(DEPS_DIR)/libfaad/libfaad/sbr_dct.o \
-			$(DEPS_DIR)/libfaad/libfaad/sbr_dec.o \
-			$(DEPS_DIR)/libfaad/libfaad/sbr_e_nf.o \
-			$(DEPS_DIR)/libfaad/libfaad/sbr_fbt.o \
-			$(DEPS_DIR)/libfaad/libfaad/sbr_hfadj.o \
-			$(DEPS_DIR)/libfaad/libfaad/sbr_hfgen.o \
-			$(DEPS_DIR)/libfaad/libfaad/sbr_huff.o \
-			$(DEPS_DIR)/libfaad/libfaad/sbr_qmf.o \
-			$(DEPS_DIR)/libfaad/libfaad/sbr_syntax.o \
-			$(DEPS_DIR)/libfaad/libfaad/sbr_tf_grid.o \
-			$(DEPS_DIR)/libfaad/libfaad/specrec.o \
-			$(DEPS_DIR)/libfaad/libfaad/syntax.o \
-			$(DEPS_DIR)/libfaad/libfaad/tns.o
+INCLUDES += -I$(DEPS_DIR)/faad2/include -I$(DEPS_DIR)/faad2/libfaad
+OBJS_DEPS += $(DEPS_DIR)/faad2/libfaad/bits.o \
+			$(DEPS_DIR)/faad2/libfaad/cfft.o \
+			$(DEPS_DIR)/faad2/libfaad/common.o \
+			$(DEPS_DIR)/faad2/libfaad/decoder.o \
+			$(DEPS_DIR)/faad2/libfaad/drc.o \
+			$(DEPS_DIR)/faad2/libfaad/error.o \
+			$(DEPS_DIR)/faad2/libfaad/filtbank.o \
+			$(DEPS_DIR)/faad2/libfaad/hcr.o \
+			$(DEPS_DIR)/faad2/libfaad/huffman.o \
+			$(DEPS_DIR)/faad2/libfaad/ic_predict.o \
+			$(DEPS_DIR)/faad2/libfaad/is.o \
+			$(DEPS_DIR)/faad2/libfaad/lt_predict.o \
+			$(DEPS_DIR)/faad2/libfaad/mdct.o \
+			$(DEPS_DIR)/faad2/libfaad/mp4.o \
+			$(DEPS_DIR)/faad2/libfaad/ms.o \
+			$(DEPS_DIR)/faad2/libfaad/output.o \
+			$(DEPS_DIR)/faad2/libfaad/pns.o \
+			$(DEPS_DIR)/faad2/libfaad/pulse.o \
+			$(DEPS_DIR)/faad2/libfaad/ps_dec.o \
+			$(DEPS_DIR)/faad2/libfaad/ps_syntax.o \
+			$(DEPS_DIR)/faad2/libfaad/rvlc.o \
+			$(DEPS_DIR)/faad2/libfaad/sbr_dct.o \
+			$(DEPS_DIR)/faad2/libfaad/sbr_dec.o \
+			$(DEPS_DIR)/faad2/libfaad/sbr_e_nf.o \
+			$(DEPS_DIR)/faad2/libfaad/sbr_fbt.o \
+			$(DEPS_DIR)/faad2/libfaad/sbr_hfadj.o \
+			$(DEPS_DIR)/faad2/libfaad/sbr_hfgen.o \
+			$(DEPS_DIR)/faad2/libfaad/sbr_huff.o \
+			$(DEPS_DIR)/faad2/libfaad/sbr_qmf.o \
+			$(DEPS_DIR)/faad2/libfaad/sbr_syntax.o \
+			$(DEPS_DIR)/faad2/libfaad/sbr_tf_grid.o \
+			$(DEPS_DIR)/faad2/libfaad/specrec.o \
+			$(DEPS_DIR)/faad2/libfaad/syntax.o \
+			$(DEPS_DIR)/faad2/libfaad/tns.o
 endif
 
 ifeq ($(USE_PNG), 1)
