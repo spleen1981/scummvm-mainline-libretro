@@ -45,11 +45,11 @@ endif
 
 ifeq ($(USE_VORBIS), 1)
 DEFINES += -DUSE_VORBIS
-INCLUDES += -I$(DEPS_DIR)/libogg/include \
+INCLUDES += -I$(DEPS_DIR)/ogg/include/ogg \
 			-I$(DEPS_DIR)/libvorbis/include \
 			-I$(DEPS_DIR)/libvorbis/lib
-OBJS_DEPS += $(DEPS_DIR)/libogg/src/bitwise.o \
-			$(DEPS_DIR)/libogg/src/framing.o \
+OBJS_DEPS += $(DEPS_DIR)/ogg/src/bitwise.o \
+			$(DEPS_DIR)/ogg/src/framing.o \
 			$(DEPS_DIR)/libvorbis/lib/analysis.o \
 			$(DEPS_DIR)/libvorbis/lib/bitrate.o \
 			$(DEPS_DIR)/libvorbis/lib/block.o \
