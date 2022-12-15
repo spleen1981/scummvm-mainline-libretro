@@ -34,3 +34,6 @@
 [submodule "3rdparty/theora"]
 	path = 3rdparty/theora
 	url = https://github.com/xiph/theora
+[submodule "3rdparty/tremor"]
+	path = 3rdparty/tremor
+	url = https://gitlab.xiph.org/xiph/tremor
