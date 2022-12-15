@@ -13,3 +13,6 @@
 [submodule "3rdparty/faad2"]
 	path = 3rdparty/faad2
 	url = https://github.com/knik0/faad2
+[submodule "3rdparty/libjpeg-turbo"]
+	path = 3rdparty/libjpeg-turbo
+	url = https://github.com/libjpeg-turbo/libjpeg-turbo
