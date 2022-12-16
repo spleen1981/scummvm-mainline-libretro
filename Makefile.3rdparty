@@ -43,7 +43,33 @@ OBJS_DEPS += $(DEPS_DIR)/flac/src/share/win_utf8_io/win_utf8_io.o \
 endif
 endif
 
+ifeq ($(USE_TREMOR), 1)
+
+#Vorbis/Tremor support is mutually exclusive)
+USE_VORBIS := 0
+
+DEFINES += -DUSE_TREMOR -DUSE_VORBIS
+OBJS_DEPS += $(DEPS_DIR)/tremor/bitwise.o \
+			$(DEPS_DIR)/tremor/block.o \
+			$(DEPS_DIR)/tremor/codebook.o \
+			$(DEPS_DIR)/tremor/floor0.o \
+			$(DEPS_DIR)/tremor/floor1.o \
+			$(DEPS_DIR)/tremor/framing.o \
+			$(DEPS_DIR)/tremor/info.o \
+			$(DEPS_DIR)/tremor/mapping0.o \
+			$(DEPS_DIR)/tremor/mdct.o \
+			$(DEPS_DIR)/tremor/registry.o \
+			$(DEPS_DIR)/tremor/res012.o \
+			$(DEPS_DIR)/tremor/sharedbook.o \
+			$(DEPS_DIR)/tremor/synthesis.o \
+			$(DEPS_DIR)/tremor/vorbisfile.o \
+			$(DEPS_DIR)/tremor/window.o
+endif
+
 ifeq ($(USE_VORBIS), 1)
+#hack to force stdint.h, normally set in the output of config_types.h.in @TODO find a cleaner way...
+$(shell sed -i "s|defined(_WIN32)|(1)|;s|defined(__CYGWIN__)|(1)|" $(DEPS_DIR)/ogg/include/ogg/os_types.h)
+TMP_FILES += $(DEPS_DIR)/ogg/include/ogg/config_types.h
 DEFINES += -DUSE_VORBIS
 INCLUDES += -I$(DEPS_DIR)/ogg/include \
 			-I$(DEPS_DIR)/vorbis/include \
@@ -72,25 +98,6 @@ OBJS_DEPS += $(DEPS_DIR)/ogg/src/bitwise.o \
 			$(DEPS_DIR)/vorbis/lib/vorbisenc.o \
 			$(DEPS_DIR)/vorbis/lib/vorbisfile.o \
 			$(DEPS_DIR)/vorbis/lib/window.o
-endif
-
-ifeq ($(USE_TREMOR), 1)
-DEFINES += -DUSE_TREMOR -DUSE_VORBIS
-OBJS_DEPS += $(DEPS_DIR)/tremor/bitwise.o \
-			$(DEPS_DIR)/tremor/block.o \
-			$(DEPS_DIR)/tremor/codebook.o \
-			$(DEPS_DIR)/tremor/floor0.o \
-			$(DEPS_DIR)/tremor/floor1.o \
-			$(DEPS_DIR)/tremor/framing.o \
-			$(DEPS_DIR)/tremor/info.o \
-			$(DEPS_DIR)/tremor/mapping0.o \
-			$(DEPS_DIR)/tremor/mdct.o \
-			$(DEPS_DIR)/tremor/registry.o \
-			$(DEPS_DIR)/tremor/res012.o \
-			$(DEPS_DIR)/tremor/sharedbook.o \
-			$(DEPS_DIR)/tremor/synthesis.o \
-			$(DEPS_DIR)/tremor/vorbisfile.o \
-			$(DEPS_DIR)/tremor/window.o
 endif
 
 ifeq ($(USE_ZLIB), 1)
