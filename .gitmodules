@@ -1,42 +1,56 @@
 [submodule "scummvm"]
 	path = scummvm
 	url = https://github.com/scummvm/scummvm
+	ignore = dirty
 [submodule "3rdparty/freetype"]
 	path = 3rdparty/freetype
 	url = https://github.com/freetype/freetype
+	ignore = dirty
 [submodule "3rdparty/fluidlite"]
 	path = 3rdparty/FluidLite
 	url = https://github.com/divideconcept/FluidLite
+	ignore = dirty
 [submodule "3rdparty/flac"]
 	path = 3rdparty/flac
 	url = https://github.com/xiph/flac
+	ignore = dirty
 [submodule "3rdparty/faad2"]
 	path = 3rdparty/faad2
 	url = https://github.com/knik0/faad2
+	ignore = dirty
 [submodule "3rdparty/libjpeg-turbo"]
 	path = 3rdparty/libjpeg-turbo
 	url = https://github.com/libjpeg-turbo/libjpeg-turbo
+	ignore = dirty
 [submodule "3rdparty/libmad"]
 	path = 3rdparty/libmad
 	url = https://github.com/audacity/libmad
+	ignore = dirty
 [submodule "3rdparty/ogg"]
 	path = 3rdparty/ogg
 	url = https://github.com/xiph/ogg
+	ignore = dirty
 [submodule "3rdparty/libpng"]
 	path = 3rdparty/libpng
 	url = https://github.com/glennrp/libpng
+	ignore = dirty
 [submodule "3rdparty/vorbis"]
 	path = 3rdparty/vorbis
 	url = https://github.com/xiph/vorbis
+	ignore = dirty
 [submodule "3rdparty/zlib"]
 	path = 3rdparty/zlib
 	url = https://github.com/madler/zlib
+	ignore = dirty
 [submodule "3rdparty/theora"]
 	path = 3rdparty/theora
 	url = https://github.com/xiph/theora
+	ignore = dirty
 [submodule "3rdparty/tremor"]
 	path = 3rdparty/tremor
 	url = https://gitlab.xiph.org/xiph/tremor
+	ignore = dirty
 [submodule "3rdparty/libretro-common"]
 	path = 3rdparty/libretro-common
 	url = https://github.com/libretro/libretro-common
+	ignore = dirty
