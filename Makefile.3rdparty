@@ -25,7 +25,7 @@ endif
 
 ifeq ($(USE_FLAC), 1)
 DEFINES += -DUSE_FLAC
-INCLUDES += -I$(DEPS_DIR)/flac/src/libFLAC/include -I$(DEPS_DIR)/flac/include/share -I$(DEPS_DIR)/flac/include/FLAC
+INCLUDES += -I$(DEPS_DIR)/flac/src/libFLAC/include -I$(DEPS_DIR)/flac/include
 OBJS_DEPS += $(DEPS_DIR)/flac/src/libFLAC/bitreader.o \
 			$(DEPS_DIR)/flac/src/libFLAC/cpu.o \
 			$(DEPS_DIR)/flac/src/libFLAC/crc.o \
