@@ -4,33 +4,17 @@ INCLUDES    += -I$(CORE_DIR)
 # Libretro settings
 ######################################################################
 
-INCLUDES    += -I$(LIBRETRO_DIR) -I$(LIBRETRO_COMM_DIR)/include -I$(LIBRETRO_COMM_DIR)/include/compat
+INCLUDES    += -I$(LIBRETRO_DIR)
 MODULE_DIRS += $(LIBRETRO_DIR)
 
-OBJS := $(LIBRETRO_DIR)/libretro.o \
-	$(LIBRETRO_DIR)/libretro_os.o \
-	$(LIBRETRO_COMM_DIR)/file/retro_stat.o \
+OBJS := $(LIBRETRO_DIR)/libretro_os.o \
 	$(LIBRETRO_DIR)/libretro-fs.o \
-	$(LIBRETRO_DIR)/libretro-fs-factory.o
+	$(LIBRETRO_DIR)/libretro-fs-factory.o \
+	$(LIBRETRO_DIR)/libretro.o
 
-ifeq ($(USE_LIBCO), 1)
-OBJS += $(LIBRETRO_COMM_DIR)/libco/libco.o
-ifeq ($(platform), genode)
-OBJS += $(LIBRETRO_COMM_DIR)/libco/genode.o
-endif
-else
+ifneq ($(USE_LIBCO), 1)
 OBJS += $(LIBRETRO_DIR)/retro_emu_thread.o
 endif
-
-ifneq ($(STATIC_LINKING), 1)
-OBJS_DEPS += $(LIBRETRO_COMM_DIR)/file/retro_dirent.o \
-	$(LIBRETRO_COMM_DIR)/file/retro_stat.o \
-	$(LIBRETRO_COMM_DIR)/file/file_path.o \
-	$(LIBRETRO_COMM_DIR)/encodings/encoding_utf.o \
-	$(LIBRETRO_COMM_DIR)/compat/fopen_utf8.o \
-	$(LIBRETRO_COMM_DIR)/compat/compat_strl.o
-endif
-
 
 ######################################################################
 # External dependencies settings

@@ -1,5 +1,27 @@
 DEPS_DIR   := 3rdparty
+LIBRETRO_COMM_DIR   := $(DEPS_DIR)/libretro-common
+
 INCLUDES   += -I$(DEPS_DIR)
+
+INCLUDES    += -I$(LIBRETRO_COMM_DIR)/include -I$(LIBRETRO_COMM_DIR)/include/compat
+OBJS := $(LIBRETRO_COMM_DIR)/file/file_path_io.o \
+	$(LIBRETRO_COMM_DIR)/file/file_path.o
+
+ifeq ($(USE_LIBCO), 1)
+OBJS += $(LIBRETRO_COMM_DIR)/libco/libco.o
+ifeq ($(platform), genode)
+OBJS += $(LIBRETRO_COMM_DIR)/libco/genode.o
+endif
+endif
+
+ifneq ($(STATIC_LINKING), 1)
+OBJS_DEPS += $(LIBRETRO_COMM_DIR)/file/retro_dirent.o \
+	$(LIBRETRO_COMM_DIR)/file/retro_stat.o \
+	$(LIBRETRO_COMM_DIR)/file/file_path.o \
+	$(LIBRETRO_COMM_DIR)/encodings/encoding_utf.o \
+	$(LIBRETRO_COMM_DIR)/compat/fopen_utf8.o \
+	$(LIBRETRO_COMM_DIR)/compat/compat_strl.o
+endif
 
 ifeq ($(USE_FLUIDSYNTH), 1)
 DEFINES += -DUSE_FLUIDSYNTH -DUSE_FLUIDLITE

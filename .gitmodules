@@ -37,3 +37,6 @@
 [submodule "3rdparty/tremor"]
 	path = 3rdparty/tremor
 	url = https://gitlab.xiph.org/xiph/tremor
+[submodule "3rdparty/libretro-common"]
+	path = 3rdparty/libretro-common
+	url = https://github.com/libretro/libretro-common
