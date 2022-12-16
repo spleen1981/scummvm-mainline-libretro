@@ -22,6 +22,6 @@ make
 All options and configuration of the legacy libretro core are applicable to this one as well, refer to relevant link in Resources.
 
 ## Resources
-For official ScummVM repository readme ref. [here](https://github.com/scummvm/scummvm#readme).
+Official ScummVM repository readme is [here](https://github.com/scummvm/scummvm#readme).
 
-Legacy ScummVM libretro core documentation is [here](https://github.com/scummvm/scummvm#readme)
+Legacy ScummVM libretro core documentation is [here](https://github.com/libretro/scummvm#readme)
