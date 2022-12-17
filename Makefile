@@ -25,7 +25,8 @@ BUILD_DIR           = build
 LIBRETRO_DIR        = src
 srcdir              := $(CORE_DIR)
 VPATH               := $(CORE_DIR)
-LIBRETRO_COMM_DIR   := $(LIBRETRO_DIR)/libretro-common
+DEPS_DIR            := 3rdparty
+LIBRETRO_COMM_DIR   := $(DEPS_DIR)/libretro-common
 
 # output files prefix
 TARGET_NAME = scummvm_mainline
@@ -512,6 +513,7 @@ endif
 #BACKEND := libretro
 DETECT_OBJS :=
 
+include Makefile.3rdparty
 include Makefile.common
 
 ######################################################################

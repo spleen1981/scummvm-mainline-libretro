@@ -1,6 +1,3 @@
-DEPS_DIR   := 3rdparty
-LIBRETRO_COMM_DIR   := $(DEPS_DIR)/libretro-common
-
 INCLUDES   += -I$(DEPS_DIR)
 
 INCLUDES    += -I$(LIBRETRO_COMM_DIR)/include -I$(LIBRETRO_COMM_DIR)/include/compat
@@ -25,24 +22,24 @@ endif
 
 ifeq ($(USE_FLUIDSYNTH), 1)
 DEFINES += -DUSE_FLUIDSYNTH -DUSE_FLUIDLITE
-INCLUDES += -I$(DEPS_DIR)/fluidlite/include \
-			-I$(DEPS_DIR)/fluidlite/src
-OBJS_DEPS += $(DEPS_DIR)/fluidlite/src/fluid_chan.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_chorus.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_conv.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_defsfont.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_dsp_float.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_gen.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_hash.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_list.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_mod.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_ramsfont.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_rev.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_settings.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_synth.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_sys.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_tuning.o \
-			$(DEPS_DIR)/fluidlite/src/fluid_voice.o
+INCLUDES += -I$(DEPS_DIR)/FluidLite/include \
+			-I$(DEPS_DIR)/FluidLite/src
+OBJS_DEPS += $(DEPS_DIR)/FluidLite/src/fluid_chan.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_chorus.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_conv.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_defsfont.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_dsp_float.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_gen.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_hash.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_list.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_mod.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_ramsfont.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_rev.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_settings.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_synth.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_sys.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_tuning.o \
+			$(DEPS_DIR)/FluidLite/src/fluid_voice.o
 endif
 
 ifeq ($(USE_FLAC), 1)

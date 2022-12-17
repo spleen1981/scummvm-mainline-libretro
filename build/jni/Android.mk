@@ -53,7 +53,8 @@ USE_MT32EMU = 1
 DEFINES += -DUSE_MT32EMU
 endif
 
-include $(CORE_DIR)/Makefile.common
+include $(ROOT_PATH)/Makefile.3rdparty
+include $(ROOT_PATH)/Makefile.common
 include $(addprefix $(CORE_DIR)/, $(addsuffix /module.mk,$(MODULES)))
 OBJS_MODULES := $(addprefix $(CORE_DIR)/, $(foreach MODULE,$(MODULES),$(MODULE_OBJS-$(MODULE))))
 SOURCES_C    := $(LIBRETRO_COMM_DIR)/libco/libco.c
