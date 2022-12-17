@@ -8,8 +8,23 @@ DETECT_OBJS :=
 $(foreach MODULE,$(MODULES),$(MODULE_OBJS-$(MODULE)) :=)
 MODULES   :=
 
-CORE_DIR  := $(LOCAL_PATH)/../../scummvm
-srcdir    := $(CORE_DIR)
+ROOT_PATH          := $(LOCAL_PATH)/../..
+CORE_DIR            = $(ROOT_PATH)/scummvm
+srcdir             := $(CORE_DIR)
+BUILD_DIR           = $(ROOT_PATH)/build
+LIBRETRO_DIR        = $(ROOT_PATH)/src
+VPATH              := $(CORE_DIR)
+DEPS_DIR           := $(ROOT_PATH)/3rdparty
+LIBRETRO_COMM_DIR  := $(DEPS_DIR)/libretro-common
+
+# output files prefix
+TARGET_NAME = scummvm_mainline
+# core version shown in frontend
+GIT_VERSION := $(shell cd $(CORE_DIR); git rev-parse --short HEAD || echo unknown)
+# nice name shown in frontend
+CORE_NAME = "ScummVM mainline"
+# pipe separated allowed extensions
+CORE_EXTENSIONS = "scummvm"
 
 USE_ZLIB       := 1
 USE_TREMOR     := 0
@@ -29,6 +44,8 @@ LOAD_RULES_MK   = 1
 USE_TINYGL      = 1
 USE_BINK        = 1
 POSIX          := 1
+NO_HIGH_DEF     = 0
+NO_WIP         ?= 1
 #BACKEND       := libretro
 
 ifeq ($(HAVE_MT32EMU),1)
@@ -57,8 +74,11 @@ else
 endif
 
 GIT_VERSION := " $(shell cd $(CORE_DIR); git rev-parse --short HEAD || echo unknown)"
-ifneq ($(GIT_VERSION)," unknown")
-  COREFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
+
+COREFLAGS += -DCORE_NAME=\"$(CORE_NAME)\"
+COREFLAGS += -DCORE_EXTENSIONS=\"$(CORE_EXTENSIONS)\"
+ifneq ($(GIT_VERSION),unknown)
+	COREFLAGS += -DGIT_VERSION=\"$(GIT_VERSION)\"
 endif
 
 include $(CLEAR_VARS)
@@ -66,7 +86,7 @@ LOCAL_MODULE       := retro
 LOCAL_SRC_FILES    := $(SOURCES_C) $(SOURCES_CXX) $(DETECT_OBJS:%.o=$(CORE_DIR)/%.cpp)  $(OBJS_DEPS:%.o=%.c) $(OBJS_MODULES:%.o=%.cpp)
 LOCAL_CPPFLAGS     := $(COREFLAGS) -std=c++11
 LOCAL_CFLAGS       := $(COREFLAGS)
-LOCAL_LDFLAGS      := -Wl,-version-script=$(LIBRETRO_DIR)/link.T
+LOCAL_LDFLAGS      := -Wl,-version-script=$(BUILD_PATH)/link.T
 LOCAL_LDLIBS       := -lz -llog
 LOCAL_CPP_FEATURES := rtti
 LOCAL_ARM_MODE     := arm
