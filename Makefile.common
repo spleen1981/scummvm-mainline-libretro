@@ -74,3 +74,5 @@ scummvm.zip: $(CORE_DIR)/dists/scummvm.rc
 $(TARGET_NAME)_libretro.info: $(CORE_DIR)/dists/scummvm.rc
 	@echo Preparing $@
 	@cd $(BUILD_DIR); ./bundle_datafiles.sh info $(TARGET_NAME) $(CORE_NAME) $(CORE_EXTENSIONS)
+
+.PHONY: all

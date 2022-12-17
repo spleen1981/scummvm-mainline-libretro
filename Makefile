@@ -211,7 +211,7 @@ else ifeq ($(platform), libnx)
     DEFINES	+= -g -O3 -fPIE -I$(LIBNX)/include/ -ffunction-sections -fdata-sections -ftls-model=local-exec
     DEFINES += $(INCDIRS)
     DEFINES += -D__SWITCH__ -DHAVE_LIBNX -march=armv8-a -mtune=cortex-a57 -mtp=soft
-    DEFINES += -I../libretro-common/include
+    DEFINES += -I$(LIBRETRO_COMM_DIR)/include
     CXXFLAGS := $(ASFLAGS) -std=gnu++11 -fpermissive
     STATIC_LINKING = 1
 
@@ -224,7 +224,7 @@ else ifeq ($(platform), wiiu)
    AR_ALONE = $(DEVKITPPC)/bin/powerpc-eabi-ar$(EXE_EXT)
    DEFINES += -DGEKKO -mwup -mcpu=750 -meabi -mhard-float -D__POWERPC__ -D__ppc__ -DWORDS_BIGENDIAN=1 -DMSB_FIRST
    DEFINES += -U__INT32_TYPE__ -U __UINT32_TYPE__ -D__INT32_TYPE__=int -fpermissive
-   DEFINES += -DHAVE_STRTOUL -DWIIU -I../libretro-common/include
+   DEFINES += -DHAVE_STRTOUL -DWIIU -I$(LIBRETRO_COMM_DIR)/include
    LITE := 1
    CP := cp
 
