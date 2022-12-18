@@ -21,9 +21,13 @@ OBJS_DEPS += $(LIBRETRO_COMM_DIR)/file/retro_dirent.o \
 endif
 
 ifeq ($(USE_FLUIDSYNTH), 1)
+# configure FluidLite src
+$(shell cmake $(DEPS_DIR)/FluidLite > /dev/null 2>&1)
+
 DEFINES += -DUSE_FLUIDSYNTH -DUSE_FLUIDLITE
 INCLUDES += -I$(DEPS_DIR)/FluidLite/include \
-			-I$(DEPS_DIR)/FluidLite/src
+			-I$(DEPS_DIR)/FluidLite/src \
+			-I$(DEPS_DIR)/FluidLite
 OBJS_DEPS += $(DEPS_DIR)/FluidLite/src/fluid_chan.o \
 			$(DEPS_DIR)/FluidLite/src/fluid_chorus.o \
 			$(DEPS_DIR)/FluidLite/src/fluid_conv.o \
@@ -43,6 +47,9 @@ OBJS_DEPS += $(DEPS_DIR)/FluidLite/src/fluid_chan.o \
 endif
 
 ifeq ($(USE_FLAC), 1)
+# configure flac src
+$(shell cmake $(DEPS_DIR)/flac > /dev/null 2>&1)
+
 DEFINES += -DUSE_FLAC
 INCLUDES += -I$(DEPS_DIR)/flac/src/libFLAC/include -I$(DEPS_DIR)/flac/include
 OBJS_DEPS += $(DEPS_DIR)/flac/src/libFLAC/bitreader.o \
@@ -64,7 +71,7 @@ endif
 
 ifeq ($(USE_TREMOR), 1)
 
-#Vorbis/Tremor support is mutually exclusive)
+# Vorbis/Tremor support is mutually exclusive
 USE_VORBIS := 0
 
 DEFINES += -DUSE_TREMOR -DUSE_VORBIS
@@ -86,9 +93,9 @@ OBJS_DEPS += $(DEPS_DIR)/tremor/bitwise.o \
 endif
 
 ifeq ($(USE_VORBIS), 1)
-#hack to force stdint.h, normally set in the output of config_types.h.in @TODO find a cleaner way...
-$(shell sed -i "s|defined(_WIN32)|(1)|;s|defined(__CYGWIN__)|(1)|" $(DEPS_DIR)/ogg/include/ogg/os_types.h)
-TMP_FILES += $(DEPS_DIR)/ogg/include/ogg/config_types.h
+# configure ogg src
+$(shell cmake $(DEPS_DIR)/ogg > /dev/null 2>&1)
+
 DEFINES += -DUSE_VORBIS
 INCLUDES += -I$(DEPS_DIR)/ogg/include \
 			-I$(DEPS_DIR)/vorbis/include \
