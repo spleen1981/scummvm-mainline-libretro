@@ -527,6 +527,10 @@ MODULES += \
 	po \
 	doc
 
+ifeq ($(USE_LUA),1)
+   MODULES += common/lua
+endif
+
 ifeq ($(HAVE_MT32EMU),1)
    MODULES += audio/softsynth/mt32
    DEFINES += -DUSE_MT32EMU
