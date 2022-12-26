@@ -311,6 +311,7 @@ public:
 
   Graphics::Surface _overlay;
   bool _overlayVisible;
+  bool _overlayInGUI;
 
   Graphics::Surface _mouseImage;
   RetroPalette _mousePalette;
@@ -453,7 +454,7 @@ public:
   }
 
   virtual void updateScreen() {
-    const Graphics::Surface &srcSurface = (_overlayVisible) ? _overlay : _gameScreen;
+    const Graphics::Surface &srcSurface = (_overlayInGUI) ? _overlay : _gameScreen;
     if (srcSurface.w && srcSurface.h) {
       switch (srcSurface.format.bytesPerPixel) {
       case 1:
@@ -497,9 +498,9 @@ public:
     // TODO
   }
 
-  virtual void showOverlay() { _overlayVisible = true; }
+  virtual void showOverlay(bool inGUI) { _overlayVisible = true; _overlayInGUI = inGUI; }
 
-  virtual void hideOverlay() { _overlayVisible = false; }
+  virtual void hideOverlay() { _overlayVisible = false; _overlayInGUI = false; }
 
   virtual void clearOverlay() { _overlay.fillRect(Common::Rect(_overlay.w, _overlay.h), 0); }
 
@@ -690,7 +691,7 @@ public:
   //
 
   const Graphics::Surface &getScreen() {
-    const Graphics::Surface &srcSurface = (_overlayVisible) ? _overlay : _gameScreen;
+    const Graphics::Surface &srcSurface = (_overlayInGUI) ? _overlay : _gameScreen;
 
     if (srcSurface.w != _screen.w || srcSurface.h != _screen.h) {
 #ifdef FRONTEND_SUPPORTS_RGB565
