@@ -388,6 +388,15 @@ else ifneq (,$(findstring windows_msvc2017,$(platform)))
    PSS_STYLE :=2
    LDFLAGS += -DLL
 
+else ifeq ($(platform), win)
+   # let out for next test block
+
+else ifeq ($(platform), osx)
+   # let out for next test block
+
+else ifeq ($(platform), unix)
+   # let out for next test block
+
 else
    # Nothing found for specified platform or none set
    platform = unix
