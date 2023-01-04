@@ -33,6 +33,7 @@ NO_HIGH_DEF    ?= 0
 NO_WIP         ?= 1
 USE_LIBCO      ?= 1
 ENABLE_VKEYBD   = 1
+USE_CLOUD      ?= 1
 
 # Paths
 SCUMMVM_PATH         := $(ROOT_PATH)/scummvm
@@ -530,6 +531,12 @@ ifeq ($(HAVE_MT32EMU),1)
    MODULES += audio/softsynth/mt32
    DEFINES += -DUSE_MT32EMU
 endif
+
+ifeq ($(USE_CLOUD), 1)
+   INCLUDES += -I$(SCUMMVM_PATH)/backends/cloud -I$(SCUMMVM_PATH)/backends/networking/curl
+   DEFINES += -DUSE_CLOUD -DUSE_LIBCURL
+endif
+
 
 ######################################################################
 # Rules
