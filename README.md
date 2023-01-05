@@ -12,11 +12,11 @@ As current official ScummVM libretro core is based on a very old fork of ScummVM
 ## Build
 To build with the default configuration type in a shell the following:
 ```
-git clone --recursive https://github.com/spleen1981/scummvm-mainline-libretro
-cd scummvm-mainline-libretro
+git clone --recursive https://github.com/libretro/scummvm
+cd scummvm
 make
 ```
-"Work in progress" engines are not build by default, to include them pass `NO_WIP=0` to make.
+"Work in progress" engines are not built by default, to include them pass `NO_WIP=0` to make.
 
 ### Build for Android
 To build for Android:
@@ -25,8 +25,8 @@ To build for Android:
 * make sure all needed sdk/ndk paths are included in PATH
 * type in a shell the following:
 ```
-git clone --recursive https://github.com/spleen1981/scummvm-mainline-libretro
-cd scummvm-mainline-libretro/build/jni
+git clone --recursive https://github.com/libretro/scummvm
+cd scummvm/jni
 ndk-build
 ```
 Core will be built for all available android targets by default
