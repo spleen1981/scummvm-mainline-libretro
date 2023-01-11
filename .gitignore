@@ -5,3 +5,6 @@ build/obj/
 scummvm.zip
 *_libretro.so
 *_libretro.info
+config.mk.engines.lite
+script.mri
+ScummVM.dat

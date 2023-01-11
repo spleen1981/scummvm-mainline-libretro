@@ -1,7 +1,7 @@
 ROOT_PATH := .
 
 # Output files prefix
-TARGET_NAME = scummvm_mainline
+TARGET_NAME = scummvm
 
 HIDE := @
 SPACE :=
@@ -18,7 +18,7 @@ ifeq ($(shell uname -a),)
 endif
 
 ifeq ($(BUILD_64BIT),)
-ifeq (,$(findstring 64,$(shell uname -m)))
+ifeq (,$(findstring 64,$(platform)))
    BUILD_64BIT := 0
 else
    BUILD_64BIT := 1
@@ -38,7 +38,7 @@ RM_REC    = rm -rf
 ifeq ($(platform), rpi3_64)
    TARGET   = $(TARGET_NAME)_libretro.so
    DEFINES += -fPIC -D_ARM_ASSEM_ -DUSE_CXX11 -DARM
-   LDFLAGS += -shared -Wl,--version-script=$(BUILD_PATH)/link.T -fPIC
+   LDFLAGS += -shared -Wl,--version-script=$(ROOT_PATH)/link.T -fPIC
    CFLAGS  += -fPIC -mcpu=cortex-a53 -mtune=cortex-a53 -fomit-frame-pointer -ffast-math
    CXXFLAGS = $(CFLAGS) -frtti -std=c++11
 
@@ -46,7 +46,7 @@ ifeq ($(platform), rpi3_64)
 else ifeq ($(platform), rpi4_64)
    TARGET = $(TARGET_NAME)_libretro.so
    DEFINES += -fPIC -D_ARM_ASSEM_ -DUSE_CXX11 -DARM
-   LDFLAGS += -shared -Wl,--version-script=$(BUILD_PATH)/link.T -fPIC
+   LDFLAGS += -shared -Wl,--version-script=$(ROOT_PATH)/link.T -fPIC
    CFLAGS += -fPIC -mcpu=cortex-a72 -mtune=cortex-a72 -fomit-frame-pointer -ffast-math
    CXXFLAGS = $(CFLAGS) -frtti -std=c++11
 
@@ -64,7 +64,7 @@ ifeq ($(platform),ios-arm64)
   CC        = cc -arch arm64 -isysroot $(IOSSDK)
   CXX       = c++ -arch arm64 -isysroot $(IOSSDK)
 else
-   CC       = cc -arch armv7 -isysroot $(IOSSDK)
+   CC       = cc -arch armv7 -isysroot $(IOSSDK) -marm
    CXX      = c++ -arch armv7 -isysroot $(IOSSDK)
 endif
 
@@ -74,7 +74,7 @@ else
    MINVERSION += -miphoneos-version-min=5.0
 endif
   CFLAGS   += $(MINVERSION)
-  CXXFLAGS += $(MINVERSION)
+  CXXFLAGS += $(MINVERSION) -std=c++11
 
 else ifeq ($(platform), tvos-arm64)
    EXT?=dylib
@@ -85,13 +85,13 @@ ifeq ($(IOSSDK),)
    IOSSDK := $(shell xcodebuild -version -sdk appletvos Path)
 endif
    CC  = cc -arch arm64 -isysroot $(IOSSDK)
-   CXX = c++ -arch arm64 -isysroot $(IOSSDK)
+   CXX = c++ -arch arm64 -isysroot $(IOSSDK) -std=c++11
 
 # QNX
 else ifeq ($(platform), qnx)
    TARGET  := $(TARGET_NAME)_libretro_$(platform).so
    DEFINES += -fPIC -DSYSTEM_NOT_SUPPORTING_D_TYPE
-   LDFLAGS += -shared -Wl,--version-script=$(BUILD_PATH)/link.T -fPIC
+   LDFLAGS += -shared -Wl,--version-script=$(ROOT_PATH)/link.T -fPIC
    CC = qcc -Vgcc_ntoarmv7le
    CXX = QCC -Vgcc_ntoarmv7le
    LD = QCC -Vgcc_ntoarmv7le
@@ -139,6 +139,7 @@ else ifeq ($(platform), libnx)
     include $(DEVKITPRO)/libnx/switch_rules
     EXT=a
     TARGET := $(TARGET_NAME)_libretro_$(platform).$(EXT)
+    AR = $(DEVKITPRO)/devkitA64/aarch64-none-elf/bin/ar$(EXE_EXT) rcs
     DEFINES := -DSWITCH=1 -U__linux__ -U__linux
     DEFINES   += -g -O3 -fPIE -I$(LIBNX)/include/ -ffunction-sections -fdata-sections -ftls-model=local-exec
     DEFINES += $(INCDIRS)
@@ -159,6 +160,7 @@ else ifeq ($(platform), wiiu)
    DEFINES += -DHAVE_STRTOUL -DWIIU -I$(LIBRETRO_COMM_PATH)/include
    LITE := 1
    CP := cp
+   STATIC_LINKING = 1
 
 else ifeq ($(platform), ctr)
    TARGET := $(TARGET_NAME)_libretro_$(platform).a
@@ -200,7 +202,9 @@ else ifeq ($(platform), gcw0)
    RANLIB = /opt/gcw0-toolchain/usr/bin/mipsel-linux-ranlib
    DEFINES += -DDINGUX -fomit-frame-pointer -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float -fPIC
    DEFINES += -ffunction-sections -fdata-sections
-   LDFLAGS += -shared -Wl,--gc-sections -Wl,--version-script=$(BUILD_PATH)/link.T -fPIC
+   LDFLAGS += -shared -Wl,--gc-sections -Wl,--version-script=$(ROOT_PATH)/link.T -fPIC
+   CFLAGS += -std=c99
+   CXXFLAGS += -std=c++11
    USE_VORBIS = 0
    USE_THEORADEC = 0
    USE_TREMOR = 1
@@ -218,7 +222,7 @@ else ifeq ($(platform), miyoo)
    RANLIB = /opt/miyoo/usr/bin/arm-linux-ranlib
    DEFINES += -DDINGUX -fomit-frame-pointer -ffast-math -march=armv5te -mtune=arm926ej-s -fPIC
    DEFINES += -ffunction-sections -fdata-sections
-   LDFLAGS += -shared -Wl,--gc-sections -Wl,--version-script=$(BUILD_PATH)/link.T -fPIC
+   LDFLAGS += -shared -Wl,--gc-sections -Wl,--version-script=$(ROOT_PATH)/link.T -fPIC
    USE_VORBIS = 0
    USE_THEORADEC = 0
    USE_TREMOR = 1
@@ -236,7 +240,7 @@ else ifeq ($(platform), miyoomini)
    RANLIB = /usr/bin/arm-linux-gnueabihf-ranlib
    DEFINES += -fomit-frame-pointer -ffast-math -marm -march=armv7ve+simd -mtune=cortex-a7 -fPIC
    DEFINES += -ffunction-sections -fdata-sections
-   LDFLAGS += -shared -Wl,--gc-sections -Wl,--version-script=$(BUILD_PATH)/link.T -fPIC
+   LDFLAGS += -shared -Wl,--gc-sections -Wl,--version-script=$(ROOT_PATH)/link.T -fPIC
    USE_VORBIS = 0
    USE_THEORADEC = 0
    USE_TREMOR = 1
@@ -248,7 +252,7 @@ else ifeq ($(platform), miyoomini)
 else ifneq (,$(findstring armv7,$(platform)))
    TARGET := $(TARGET_NAME)_libretro.so
    DEFINES += -fPIC -D_ARM_ASSEM_ -DUSE_CXX11 -marm -DARM
-   LDFLAGS += -shared -Wl,--version-script=$(BUILD_PATH)/link.T -fPIC
+   LDFLAGS += -shared -Wl,--version-script=$(ROOT_PATH)/link.T -fPIC
    USE_VORBIS = 0
    USE_THEORADEC = 0
    USE_TREMOR = 1
@@ -273,7 +277,7 @@ endif
 else ifneq (,$(findstring armv8,$(platform)))
    TARGET := $(TARGET_NAME)_libretro.so
    DEFINES += -fPIC -D_ARM_ASSEM_ -DARM -marm -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard -march=armv8-a+crc
-   LDFLAGS += -shared -Wl,--version-script=$(BUILD_PATH)/link.T -fPIC
+   LDFLAGS += -shared -Wl,--version-script=$(ROOT_PATH)/link.T -fPIC
    CFLAGS   += -fPIC
    HAVE_NEON = 1
 
@@ -281,7 +285,7 @@ else ifneq (,$(findstring armv8,$(platform)))
 else ifneq (,$(findstring oga_a35_neon_hardfloat,$(platform)))
    TARGET := $(TARGET_NAME)_libretro.so
    DEFINES += -fPIC -D_ARM_ASSEM_ -DARM -marm -mtune=cortex-a35 -mfpu=neon-fp-armv8 -mfloat-abi=hard -march=armv8-a+crc
-   LDFLAGS += -shared -Wl,--version-script=$(BUILD_PATH)/link.T -fPIC
+   LDFLAGS += -shared -Wl,--version-script=$(ROOT_PATH)/link.T -fPIC
    USE_VORBIS = 0
    USE_THEORADEC = 0
    USE_TREMOR = 1
@@ -399,30 +403,40 @@ else ifeq ($(platform), unix)
 
 else
    # Nothing found for specified platform or none set
-   platform = unix
-	ifeq ($(shell uname -a),)
-	   platform = win
-	else ifneq ($(findstring MINGW,$(shell uname -a)),)
-	   platform = win
-	else ifneq ($(findstring Darwin,$(shell uname -a)),)
-	   platform = osx
-	   arch = intel
-	ifeq ($(shell uname -p),arm64)
-	   arch = arm
-	endif
-	ifeq ($(shell uname -p),powerpc)
-	   arch = ppc
-	endif
-	else ifneq ($(findstring win,$(shell uname -a)),)
-	   platform = win
-	endif
+
+   override platform = unix
+   ifeq ($(shell uname -a),)
+      override platform = win
+   else ifneq ($(findstring MINGW,$(shell uname -a)),)
+      override platform = win
+   else ifneq ($(findstring Darwin,$(shell uname -a)),)
+      override platform = osx
+      override arch = intel
+      ifeq ($(shell uname -p),arm64)
+         override arch = arm
+      endif
+      ifeq ($(shell uname -p),powerpc)
+         override arch = ppc
+      endif
+   else ifneq ($(findstring win,$(shell uname -a)),)
+      override platform = win
+   endif
+
+   ifeq ($(BUILD_64BIT),)
+      ifeq (,$(findstring 64,$(shell uname -m)))
+         BUILD_64BIT := 0
+      else
+         BUILD_64BIT := 1
+      endif
+   endif
+   TARGET_64BIT := $(BUILD_64BIT)
 endif
 
 # Unix fallback
 ifeq ($(platform), unix)
    TARGET   := $(TARGET_NAME)_libretro.so
    DEFINES  += -DHAVE_POSIX_MEMALIGN=1 -DUSE_CXX11
-   LDFLAGS  += -shared -Wl,--version-script=$(BUILD_PATH)/link.T -fPIC
+   LDFLAGS  += -shared -Wl,--version-script=$(ROOT_PATH)/link.T -fPIC
    CFLAGS   += -fPIC
    CXXFLAGS += $(CFLAGS) -std=c++11
 # Win fallback
@@ -431,7 +445,7 @@ else ifeq ($(platform), win)
    TARGET  := $(TARGET_NAME)_libretro.dll
    DEFINES += -DHAVE_FSEEKO -DHAVE_INTTYPES_H -fPIC
    CXXFLAGS += -fno-permissive
-   LDFLAGS += -shared -static-libgcc -static-libstdc++ -s -Wl,--version-script=$(BUILD_PATH)/link.T -fPIC
+   LDFLAGS += -shared -static-libgcc -static-libstdc++ -s -Wl,--version-script=$(ROOT_PATH)/link.T -fPIC
 # OS X
 else ifeq ($(platform), osx)
    TARGET  := $(TARGET_NAME)_libretro.dylib
@@ -542,22 +556,22 @@ endif
 endif
 
 ifeq ($(platform), wiiu)
-$(TARGET): $(OBJS) libdeps.a
+$(TARGET): $(OBJS) libdeps.a libdetect.a
 	$(MKDIR) libtemp
 	$(CP) $+ libtemp/
-	$(AR_ALONE) -M < lite_wiiu.mri
+	$(AR_ALONE) -M < $(ROOT_PATH)/script.mri
 else ifeq ($(platform), libnx)
-$(TARGET): libnx-ln $(OBJS) libdeps.a
+$(TARGET): libnx-ln $(OBJS) libdeps.a libdetect.a
 	$(MKDIR) libtemp
 	cp $+ libtemp/
-	$(AR) -M < libnx.mri
+	$(AR) -M < $(ROOT_PATH)/script.mri
 else ifeq ($(platform), ctr)
-$(TARGET): $(OBJS) libdeps.a
+$(TARGET): $(OBJS) libdeps.a libdetect.a
 	$(MKDIR) libtemp
 	cp $+ libtemp/
-	$(AR) -M < ctr.mri
+	$(AR) -M < $(ROOT_PATH)/script.mri
 else ifeq ($(STATIC_LINKING), 1)
-$(TARGET): $(DETECT_OBJS) $(OBJS) libdeps.a
+$(TARGET): $(DETECT_OBJS) $(OBJS) libdeps.a libdetect.a
 	@echo Linking $@...
 	$(HIDE)$(AR) $@ $(wildcard *.o) $(wildcard */*.o) $(wildcard */*/*.o) $(wildcard */*/*/*.o) $(wildcard */*/*/*/*.o)  $(wildcard */*/*/*/*/*.o)
 else
@@ -567,13 +581,12 @@ $(TARGET): $(DETECT_OBJS) $(OBJS) libdeps.a
 endif
 
 libdeps.a: $(OBJS_DEPS)
-ifeq ($(platform), libnx)
 	@echo Linking $@...
-	$(HIDE)$(AR) -rc $@ $^
-else
-		@echo Linking $@...
-		$(HIDE)$(AR) $@ $^
-endif
+	$(HIDE)$(AR) $@ $^
+
+libdetect.a: $(DETECT_OBJS)
+	@echo Linking $@...
+	$(HIDE)$(AR) $@ $^
 
 %.o: %.c
 	@echo Compiling $(<F)...
@@ -595,28 +608,10 @@ endif
 clean:
 	@echo Cleaning project...
 	$(HIDE)$(RM_REC) $(DEPDIRS)
-	$(HIDE)$(RM) $(OBJS) $(DETECT_OBJS) $(OBJS_DEPS) libdeps.a $(TARGET)
-ifeq ($(platform), wiiu)
-	$(HIDE)$(RM_REC) libtemp
-endif
-ifeq ($(platform), libnx)
-	$(HIDE)$(RM_REC) libtemp
+	$(HIDE)$(RM) $(OBJS) $(DETECT_OBJS) $(OBJS_DEPS) libdeps.a libdetect.a $(TARGET) *.a
+	$(HIDE)$(RM_REC) libtemp $(MODULES)
 	$(HIDE)$(RM) libnx-ln
-endif
-	$(HIDE)$(RM_REC) audio
-	$(HIDE)$(RM_REC) backends
-	$(HIDE)$(RM_REC) base
-	$(HIDE)$(RM_REC) common
-	$(HIDE)$(RM_REC) engines
-	$(HIDE)$(RM_REC) graphics
-	$(HIDE)$(RM_REC) gui
-	$(HIDE)$(RM_REC) image
-	$(HIDE)$(RM_REC) video
-	$(HIDE)$(RM_REC) math
-
-	$(HIDE)$(RM) scummvm.zip
-	$(HIDE)$(RM) $(TARGET_NAME)_libretro.info
-	$(HIDE)$(RM) $(TARGET)
+	$(HIDE)$(RM) scummvm.zip  $(TARGET_NAME)_libretro.info script.mri config.mk.engines.lite ScummVM.dat
 
 # Include the dependency tracking files.
 -include $(wildcard $(addsuffix /*.d,$(DEPDIRS)))

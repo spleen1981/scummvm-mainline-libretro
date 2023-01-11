@@ -63,6 +63,7 @@
 #endif
 
 #include "libretro.h"
+#include "features/features_cpu.h"
 #include "retro_emu_thread.h"
 
 extern retro_log_printf_t log_cb;
@@ -741,7 +742,7 @@ public:
 
     // Reduce gamepad cursor speed, if required
     if (device == RETRO_DEVICE_JOYPAD && aCallback(0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R2)) {
-      adjusted_cursor_speed = adjusted_cursor_speed * (1.0f / 3.0f);
+      adjusted_cursor_speed = adjusted_cursor_speed * (1.0f / 5.0f);
     }
 
     down = false;
