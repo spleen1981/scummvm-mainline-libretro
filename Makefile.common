@@ -162,7 +162,7 @@ OBJS_DEPS += $(DEPS_PATH)/libFLAC/bitreader.o \
 	$(DEPS_PATH)/libFLAC/stream_decoder.o
 
 ifeq ($(platform), win)
-OBJS_DEPS += $(ROOT_PATH)/tmp/libFLAC/share/win_utf8_io/win_utf8_io.o \
+OBJS_DEPS += $(DEPS_PATH)/libFLAC/share/win_utf8_io/win_utf8_io.o \
 	 $(SCUMMVM_PATH)/backends/platform/sdl/win32/win32_wrapper.o
 endif
 endif
