@@ -63,6 +63,7 @@
 #endif
 
 #include "libretro.h"
+#include "features/features_cpu.h"
 #include "retro_emu_thread.h"
 
 extern retro_log_printf_t log_cb;

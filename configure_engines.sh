@@ -15,6 +15,13 @@
  # You should have received a copy of the GNU General Public License
  # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Externally passed variables shall be:
+# $1 [REQ] NO_HIGH_DEF [0,1]
+# $2 [REQ] NO_WIP [0,1]
+# $3 [REQ] STATIC_LINKING [0,1]
+# $4 [OPT] LITE [0,1]
+
+
 set -e
 
 BUILD_PATH=$(pwd)
@@ -23,28 +30,53 @@ SRC_PATH="${BUILD_PATH}/scummvm"
 cd "${SRC_PATH}"
 
 # Retrieve all configure functions
-sed -i "s/exit 0/return 0/g" configure
+sed -i.bak -e "s/exit 0/return 0/g" configure
 . configure -h > /dev/null 2>&1
+
+_parent_engines_list=""
 
 # Collect all default engines dependencies and force to yes
 tot_deps=""
 for a in $_engines ; do
-	varname=_engine_${a}_deps
-	for dep in ${!varname} ; do
+	engine_deps_var=_engine_${a}_deps
+	for dep in ${!engine_deps_var} ; do
 		found=0
 		for rec_dep in $tot_deps ; do
 			[ $dep = $rec_dep ] && found=1
 		done
 		[ $found -eq 0 ] && tot_deps+=" $dep"
 	done
+
+	# Static linking support files
+	not_subengine_var=_engine_${a}_sub
+	not_wip_engine_var=_engine_${a}_build_default
+	if [ $3 -eq 1 ] && [ -z ${!not_subengine_var} ] ; then
+		good_to_go=1
+		# Test NO_HIGH_DEF
+		[ $1 -eq 1 ] && [ $((echo ${!engine_deps_var} | grep -q highres); echo $?) -eq 0 ]  && good_to_go=0
+		[ $2 -eq 1 ] && [ $(echo ${!not_wip_engine_var} = no) ] && good_to_go=0
+		[ $4 -eq 1 ] && [ $((cat ${BUILD_PATH}/lite_engines.list | grep -wq ${a}); echo $?) -eq 1 ] && good_to_go=0
+		[ $good_to_go -eq 1 ] &&  _parent_engines_list+="ADDLIB libtemp/lib${a}.a"$'\n'
+	fi
 done
+
+[ $3 -eq 1 ] && printf "$_parent_engines_list" >> "$BUILD_PATH"/script.mri
 
 for dep in $tot_deps ; do
 	eval _$dep=yes
 done
 
 # Test NO_HIGH_DEF
-[ $1 -eq 1 ] && _highres=no
+if [ $1 -eq 1 ] ; then
+	_highres=no
+fi
+
+# Test LITE
+if [ $4 -eq 1 ] ; then
+	cp "${BUILD_PATH}"/lite_engines.list "${BUILD_PATH}"/config.mk.engines.lite
+	sed -i.bak -e "y/abcdefghijklmnopqrstuvwxyz/ABCDEFGHIJKLMNOPQRSTUVWXYZ/;s/^/ENABLE_/g;s/$/ = STATIC_PLUGIN/g" "${BUILD_PATH}"/config.mk.engines.lite
+	rm "${BUILD_PATH}"/config.mk.engines.lite.bak
+fi
 
 # Create needed engines build files
 awk -f "engines.awk" < /dev/null > /dev/null 2>&1
@@ -56,6 +88,6 @@ copy_if_changed engines/detection_table.h.new "engines/detection_table.h"
 copy_if_changed engines/plugins_table.h.new "engines/plugins_table.h"
 
 # Test NO_WIP
-[ $2 -ne 1 ] && sed -i "s/# \(.*\)/\1 = STATIC_PLUGIN/g" "config.mk.engines"
+[ $2 -ne 1 ] && sed -i.bak -e "s/# \(.*\)/\1 = STATIC_PLUGIN/g" "config.mk.engines"
 
 echo 0

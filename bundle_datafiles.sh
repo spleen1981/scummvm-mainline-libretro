@@ -34,7 +34,7 @@ function process_group(){
 	for item in "${arr[@]}"; do
 		[ $target = "bundle" ] && cp $item "${TMP_PATH}/${dirname}/"
 		fragment=$(get_firmware_entry $count $(echo "$item" | sed "s|^.*/||g") "$dirname")
-		CORE_INFO_DATS="$CORE_INFO_DATS $fragment"
+		CORE_INFO_DATS="${CORE_INFO_DATS}${fragment}"
 		count=$(expr $count + 1)
 	done
 }
@@ -43,7 +43,7 @@ function process_group(){
 # $1 [REQ] target build ("bundle" to build scummvm.zip, any other string to build core info file)
 # $2 [OPT] target name (prefix for core info file)
 # $3 [OPT] displayed core name (shown in frontend)
-# $4 [OPT] allowed extensions
+# $4 [OPT] allowed extensions - backup if ScummVM.dat is not available
 
 # Set variables
 BUILD_PATH=$(pwd)
@@ -57,7 +57,7 @@ BUNDLE_ZIP_FILE="${BUNDLE_DIR}.zip"
 BUNDLE_LOCAL_DATAFILES_DIR="${BUILD_PATH}/dist"
 
 # Retrieve data file info from ScummVM source
-THEMES_LIST=$(cat "${SRC_PATH}/dists/scummvm.rc" 2>/dev/null | grep FILE.*gui/themes.*\.zip | sed "s|.*\"\(.*\)\"|${SRC_PATH}/\1|g")
+THEMES_LIST=$(cat "${SRC_PATH}/dists/scummvm.rc" 2>/dev/null | grep FILE.*gui/themes.*\* | sed "s|.*\"\(.*\)\"|${SRC_PATH}/\1|g")
 DATAFILES_LIST=$(cat "${SRC_PATH}/dists/scummvm.rc" 2>/dev/null| grep FILE.*dists/engine-data | sed "s|.*\"\(.*\)\"|${SRC_PATH}/\1|g")
 
 # Put retrieved data into arrays
@@ -89,13 +89,18 @@ if [ -d "$BUNDLE_LOCAL_DATAFILES_DIR" -a ! -z "$(ls -A ${BUNDLE_LOCAL_DATAFILES_
 fi
 
 if [ ! $1 = "bundle" ]; then
+
+# Updated manually
+wget -NO "$BUILD_PATH"/ScummVM.dat https://raw.githubusercontent.com/libretro/libretro-database/master/dat/ScummVM.dat
+[ -f "$BUILD_PATH"/ScummVM.dat ] && SUPPORTED_EXTENSIONS="$(cat $BUILD_PATH/ScummVM.dat | grep 'rom (' | sed 's/\" .*//g;s/.*\.//g' | sort -u | tr '\n' '|')" || SUPPORTED_EXTENSIONS="$4"
+
 	# Create core.info file
 	set +e
 	read -d '' CORE_INFO_CONTENT <<EOF
 # Software Information
 display_name = "$3"
 authors = "SCUMMVMdev"
-supported_extensions = "$4"
+supported_extensions = "$SUPPORTED_EXTENSIONS"
 corename = "$3"
 categories = "Game"
 license = "GPLv3"
@@ -126,11 +131,11 @@ is_experimental = "false"
 
 # Firmware / BIOS
 firmware_count = $count
-
 EOF
 	set -e
 
-	CORE_INFO_CONTENT="$CORE_INFO_CONTENT $CORE_INFO_DATS"
+	CORE_INFO_CONTENT="${CORE_INFO_CONTENT}${CORE_INFO_DATS}
+description = \"The ScummVM adventure game engine ported to libretro. This core is built directly from the upstream repo and is synced upon stable releases, though it is not supported upstream. So please report any bug to Libretro and/or make sure the same apply to the standalone ScummVM program as well, before making any report to ScummVM Team.\""
 	echo "$CORE_INFO_CONTENT" > "${TARGET_PATH}/${2}_libretro.info"
 	echo "${2}_libretro.info created successfully"
 else
