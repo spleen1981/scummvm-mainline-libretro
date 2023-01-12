@@ -549,6 +549,7 @@ ifeq ($(HAVE_MT32EMU),1)
 endif
 
 ifeq ($(USE_CLOUD), 1)
+   INCLUDES += -I$(SCUMMVM_PATH)/backends/cloud -I$(SCUMMVM_PATH)/backends/networking/curl
    LDFLAGS += -lcurl
    DEFINES += -DUSE_CLOUD -DUSE_LIBCURL
 endif
